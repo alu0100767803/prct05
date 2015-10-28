@@ -1,86 +1,82 @@
 class Fracciones
-   attr_reader :num, :denom
+   attr_reader :num, :den
    
-   def initialize(num,denom)
-       raise TypeError, "Denominator may not be zero" if denom.eql? 0
-       d=gcd(num,denom)
-       @num=num/d
-       @denom=denom/d
+   def initialize(num,den)
+       raise TypeError, "EL denominador no puede ser cero" if den.eql? 0
+       aux=mcd(num,den)
+       @num=num/aux
+       @den=den/aux
     end
     
-    def gcd(x,y)
-        y == 0 ? x: gcd(y, x%y)
+    def mcd(x,y)
+        y == 0 ? x: mcd(y, x%y)
     end
     
-    def lcm(x,y)
-        z = x / gcd(x,y) * y
+    def mcm(x,y)
+        z = x / mcd(x,y) * y
     end
     
     def to_s
-        "#@num/#@denom"
+        "#@num/#@den"
     end
     
-    def to_f
-        @num/@denom
-    end
-
-    def == (other)
-        @num == other.num && @denom == other.denom
+    def == (nuevo)
+        @num == nuevo.num && @den == nuevo.den
     end    
    
 	def abs
-	  Fracciones.new(@num.abs, @denom)
+	  Fracciones.new(@num.abs, @den)
 	end
 
-	def reciprocal
-	  Fracciones.new(@denom, @num)
+	def inverso
+	  Fracciones.new(@den, @num)
 	end   
 	
 	def -@
-	    Fracciones.new(-@num,@denom)
+	    Fracciones.new(-@num,@den)
 	 end
 	
     #Operaciones aritmeticas
-    def +(other)
-        m = lcm(@denom, other.denom)
-        na = @num * m / @denom
-        nb = other.num * m / other.denom
+    def +(nuevo)
+        m = mcm(@den, nuevo.den)
+        na = @num * m / @den
+        nb = nuevo.num * m / nuevo.den
         Fracciones.new(na + nb,m)
     end
     
-    def -(other)
-        self + (-other)
+    def -(nuevo)
+        self + (-nuevo)
     end
     
-    def *(other)
-        Fracciones.new(@num * other.num, @denom * other.denom)
+    def *(nuevo)
+        Fracciones.new(@num * nuevo.num, @den * nuevo.den)
     end
     
-    def /(other)
-        self * other.reciprocal
+    def /(nuevo)
+        self * nuevo.inverso
     end
     
-    def %(other)
-        l = @num * other.denom
-	    r = @denom * other.num 
-	    n = l/r 
-	    Fracciones.new( l - n * r, @denom * other.denom)
+    def %(nuevo)
+        dividendo = @num * nuevo.den
+	    divisor = @den * nuevo.num 
+	    cociente = dividendo/divisor 
+	    Fracciones.new( dividendo - cociente * divisor, @den * nuevo.den)
     end
     #Fin operaciones aritmeticas
     
-    def <(other)
-	  (@num * other.denom) < (@denom * other.num) 
+    def <(nuevo)
+	  (@num * nuevo.den) < (@den * nuevo.num) 
 	end
 
-	def >(other)
-	  (@num * other.denom) > (@denom * other.num) 
+	def >(nuevo)
+	  (@num * nuevo.den) > (@den * nuevo.num) 
 	end
 
-	def <=(other)
-	  (@num * other.denom) <= (@denom * other.num) 
+	def <=(nuevo)
+	  (@num * nuevo.den) <= (@den * nuevo.num) 
 	end
 
-	def >=(other)
-	  (@num * other.denom) >= (@denom * other.num) 
+	def >=(nuevo)
+	  (@num * nuevo.den) >= (@den * nuevo.num) 
 	end
 end
